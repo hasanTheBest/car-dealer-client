@@ -11,6 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { Link as RouterLink } from "react-router-dom";
 
 const pages = ["Inventory", "Blog"];
 const settings = ["My Item", "Add Item", "Dashboard", "Logout"];
@@ -37,7 +38,7 @@ const Header = () => {
   return (
     <header>
       <AppBar position="static">
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Toolbar disableGutters>
             <Typography
               variant="h6"
@@ -90,7 +91,7 @@ const Header = () => {
               component="div"
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             >
-              LOGO
+              CarDealer
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
@@ -98,6 +99,8 @@ const Header = () => {
                   key={page}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
+                  component={RouterLink}
+                  to={`/${page.toLowerCase()}`}
                 >
                   {page}
                 </Button>
