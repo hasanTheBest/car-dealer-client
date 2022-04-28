@@ -8,7 +8,7 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const Banner = () => {
   const { data, error } = useSWR(
-    "https://car-dealer-assignment.herokuapp.com/banner",
+    "https://car-dealer-assignment.herokuapp.com/featured",
     fetcher
   );
 
@@ -27,27 +27,29 @@ const Banner = () => {
     );
 
   return (
-    <ImageListItem>
-      <img src={data[0].image} alt={data[0].name} loading="lazy" />
-      <ImageListItemBar
-        title={
-          <Typography variant="h2" mb={2}>
-            {data[0].name}
-          </Typography>
-        }
-        subtitle={
-          <Typography variant="body1" noWrap>
-            {data[0].shortDescription}
-          </Typography>
-        }
-        sx={{
-          textAlign: "center",
-          maxWidth: "750px",
-          margin: "0 auto",
-          padding: "2rem 1rem",
-        }}
-      />
-    </ImageListItem>
+    <section>
+      <ImageListItem>
+        <img src={data[0].image} alt={data[0].name} loading="lazy" />
+        <ImageListItemBar
+          title={
+            <Typography variant="h2" mb={2}>
+              {data[0].name}
+            </Typography>
+          }
+          subtitle={
+            <Typography variant="body1" noWrap>
+              {data[0].shortDescription}
+            </Typography>
+          }
+          sx={{
+            textAlign: "center",
+            maxWidth: "750px",
+            margin: "0 auto",
+            padding: "2rem 1rem",
+          }}
+        />
+      </ImageListItem>
+    </section>
   );
 };
 
