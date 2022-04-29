@@ -1,15 +1,16 @@
 import * as React from "react";
 import {
   Grid,
-  IconButton,
   List,
   ListItemAvatar,
   ListItem,
   ListItemText,
   Typography,
+  Button,
+  Input,
+  FormControl,
 } from "@mui/material";
-import { Delete } from "@mui/icons-material";
-import { useParams } from "react-router-dom";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import useSWR from "swr";
 import { Box } from "@mui/system";
 
@@ -18,6 +19,7 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 export default function InventoryItemUpdate() {
   const { id } = useParams();
 
+  // get the specific item
   const { data, error } = useSWR(
     `https://car-dealer-assignment.herokuapp.com/inventory/${id}`,
     fetcher
@@ -26,7 +28,7 @@ export default function InventoryItemUpdate() {
   if (error)
     return (
       <Typography textAlign="center" p={4} variant="h4" color="secondary">
-        Error while fetching data {error.message}
+        Error while fetching data, {error.message}
       </Typography>
     );
 
@@ -37,10 +39,42 @@ export default function InventoryItemUpdate() {
       </Typography>
     );
 
+  // handle click delivery button
+  const handleDeliveryItem = (quantity) => {
+    if (quantity === 1) {
+      return;
+    }
+    const newQuantity = parseInt(quantity) - 1;
+    console.log(quantity, newQuantity);
+
+    fetch(`https://car-dealer-assignment.herokuapp.com/inventory/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity: newQuantity }),
+    })
+      .then((r) => r.json())
+      .then((data) => console.log(data));
+  };
+
+  // handle add item to stock
+  const handleAddItem = (e, quantity) => {
+    e.preventDefault();
+
+    // console.log(e.target.quantity.value);
+    const newQuantity = parseInt(e.target.quantity.value) + parseInt(quantity);
+
+    fetch(`https://car-dealer-assignment.herokuapp.com/inventory/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity: newQuantity }),
+    })
+      .then((r) => r.json())
+      .then((data) => console.log(data));
+  };
+
   return (
     <Grid container flexDirection="column" spacing={3}>
       <Grid item>
-        {/* sx={{ mt: 4, mb: 2, width: "100%", height: "300px" }} */}
         <Box>
           <img
             src={data.image}
@@ -64,6 +98,48 @@ export default function InventoryItemUpdate() {
             );
           })}
         </List>
+      </Grid>
+      <Grid item>
+        <Box
+          sx={{
+            maxWidth: "750px",
+            margin: "0 auto",
+            display: "flex",
+            gap: "1rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <Button
+            variant="contained"
+            onClick={() => handleDeliveryItem(data.quantity)}
+          >
+            Delivery
+          </Button>
+          <Button variant="outlined" component={RouterLink} to="/inventory">
+            Manage stock
+          </Button>
+          <FormControl
+            sx={{
+              flexDirection: "row",
+              gap: ".5rem",
+              flexGrow: 1,
+              justifyContent: "flex-end",
+            }}
+            component="form"
+            onSubmit={(e) => handleAddItem(e, data.quantity)}
+          >
+            <Input
+              id="increaseStock"
+              type="number"
+              placeholder="Increase stock"
+              name="quantity"
+              required
+            />
+            <Button type="submit" variant="contained">
+              Add
+            </Button>
+          </FormControl>
+        </Box>
       </Grid>
     </Grid>
   );
