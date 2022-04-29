@@ -12,31 +12,27 @@ import { useLocation, useNavigate, Link as RouterLink } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 import {
-  useSendPasswordResetEmail,
-  useSignInWithEmailAndPassword,
+  useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import auth from "../firebase.init";
 
-const Login = () => {
+const Register = () => {
   // Reference to DOM elements
   const emailRef = useRef("");
   const passwordRef = useRef("");
-
-  // Social login
-  const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
-    useSignInWithGoogle(auth);
-
-  // password reset email sending
-  const [sendPasswordResetEmail, sendingReset, errorReset] =
-    useSendPasswordResetEmail(auth);
 
   let navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
 
-  const [signInWithEmailAndPassword, userLogin, loadingLogin, errorLogin] =
-    useSignInWithEmailAndPassword(auth);
+  // Social
+  const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
+    useSignInWithGoogle(auth);
+
+  // create user with email and password
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
 
   const handleLoginFormSubmit = (e) => {
     e.preventDefault();
@@ -57,38 +53,19 @@ const Login = () => {
       passwordInputRef.focus();
       return;
     }
-    signInWithEmailAndPassword(email, password);
+    createUserWithEmailAndPassword(email, password);
   };
 
   // handle login with google
   const handleLoginWithGoogle = () => signInWithGoogle();
 
-  // handle sending password reset email
-  const handleResetPassword = (e) => {
-    e.preventDefault();
-
-    if (!emailRef.current.lastElementChild.firstElementChild.value) {
-      emailRef.current.lastElementChild.firstElementChild.focus();
-      return;
-    }
-
-    sendPasswordResetEmail(
-      emailRef.current.lastElementChild.firstElementChild.value
-    );
-  };
-
   // if user exist go to the target page
-  if (userLogin || userGoogle) {
-    navigate(from, { replace: true });
+  if (user) {
+    toast.success("Verification Email sent");
+    // user.emailVerified ? navigate(from, { replace: true }) : navigate("/verify")
+    console.log(user);
   }
-  // password reset error
-  if (errorReset) {
-    toast.error(errorReset.message);
-  }
-  // password reset email sending
-  if (sendingReset) {
-    toast.success("Password reset email is sent.");
-  }
+
   return (
     <section>
       <Toaster />
@@ -126,10 +103,10 @@ const Login = () => {
             />
           </Grid>
           {/* error message */}
-          {errorLogin && (
+          {error && (
             <Grid item>
               <Typography paragraph my={-2} color="red">
-                {errorLogin.message}
+                {error.message}
               </Typography>
             </Grid>
           )}
@@ -138,25 +115,17 @@ const Login = () => {
           <Grid item container spacing={2} alignItems="center">
             <Grid item>
               <Button type="submit" variant="contained" size="large">
-                Login
+                Register
               </Button>
             </Grid>
             <Grid item>
               <Typography paragraph mb={0}>
-                New User?
-                <Button variant="text" component={RouterLink} to="/register">
-                  Register
+                Already a User?
+                <Button variant="text" component={RouterLink} to="/login">
+                  Login
                 </Button>
               </Typography>
             </Grid>
-          </Grid>
-          <Grid item my={-2}>
-            <Typography paragraph mb={0}>
-              Forget Password?
-              <Button variant="text" onClick={handleResetPassword}>
-                Reset
-              </Button>
-            </Typography>
           </Grid>
 
           <Grid item>
@@ -176,7 +145,7 @@ const Login = () => {
               variant="outlined"
               onClick={handleLoginWithGoogle}
             >
-              Login with Google
+              Register with Google
             </Button>
           </Grid>
         </Grid>
@@ -185,4 +154,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

@@ -7,8 +7,8 @@ import Blog from "./pages/Blog";
 import Home from "./pages/Home";
 import RequireAuth from "./components/RequireAuth";
 import Login from "./pages/Login";
-
-import { Toaster } from "react-hot-toast";
+import Register from "./pages/Register";
+import InventoryItemUpdate from "./pages/Home/InventoryItemUpdate";
 
 function App() {
   return (
@@ -21,15 +21,15 @@ function App() {
           path="/inventory/:id"
           element={
             <RequireAuth>
-              <Inventory />
+              <InventoryItemUpdate />
             </RequireAuth>
           }
         />
         <Route path="/blog" element={<Blog />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Toaster />
       <Footer />
     </>
   );
