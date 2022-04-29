@@ -8,7 +8,7 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const Banner = () => {
   const { data, error } = useSWR(
-    "https://car-dealer-assignment.herokuapp.com/featured",
+    "https://car-dealer-assignment.herokuapp.com/banner",
     fetcher
   );
 
