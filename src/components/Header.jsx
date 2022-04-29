@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link as RouterLink } from "react-router-dom";
 
-const pages = ["Inventory", "Blog"];
+const pages = ["Inventory", "Blog", "Login"];
 const settings = ["My Item", "Add Item", "Dashboard", "Logout"];
 
 const Header = () => {

@@ -1,7 +1,8 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import useSWR from "swr";
 import InventoryItem from "../../components/InventoryItem";
+import { Link as RouterLink } from "react-router-dom";
 
 // helper
 const fetcher = (url) => fetch(url).then((r) => r.json());
@@ -30,8 +31,21 @@ const FeaturedCollection = () => {
       <Container maxWidth="lg" sx={{ padding: "4rem 0" }}>
         <Grid container spacing={4}>
           {data.map((car) => (
-            <InventoryItem car={car} />
+            <InventoryItem car={car} key={car._id} />
           ))}
+        </Grid>
+
+        <Grid container spacing={2} justifyContent="center" mt={4}>
+          <Grid item>
+            <Button
+              component={RouterLink}
+              variant="contained"
+              size="large"
+              to="/inventory"
+            >
+              Explore All
+            </Button>
+          </Grid>
         </Grid>
       </Container>
     </section>

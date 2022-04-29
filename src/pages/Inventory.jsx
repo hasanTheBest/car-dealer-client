@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Grid, Typography } from "@mui/material";
 import useSWR from "swr";
-import InventoryItem from "../../components/InventoryItem";
+import InventoryItem from "../components/InventoryItem";
 
 // helper
 const fetcher = (url) => fetch(url).then((r) => r.json());
@@ -28,12 +28,12 @@ const Inventory = () => {
   return (
     <section>
       <Container maxWidth="lg" sx={{ padding: "4rem 0" }}>
-        <Typography text="secondary" variant="h2" my="4" textAlign="center">
+        <Typography text="secondary" variant="h2" pb={4} textAlign="center">
           All Cars
         </Typography>
         <Grid container spacing={4}>
           {data.map((car) => (
-            <InventoryItem car={car} />
+            <InventoryItem car={car} key={car._id} />
           ))}
         </Grid>
       </Container>
