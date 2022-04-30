@@ -174,6 +174,9 @@ const Header = () => {
                   onClose={handleCloseUserMenu}
                 >
                   <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Manage Item</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">My Item</Typography>
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>

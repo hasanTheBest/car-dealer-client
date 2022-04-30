@@ -1,7 +1,8 @@
 import React from "react";
-import { Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import useSWR from "swr";
 import InventoryItem from "../components/InventoryItem";
+import { Add } from "@mui/icons-material";
 
 // helper
 const fetcher = (url) => fetch(url).then((r) => r.json());
@@ -29,8 +30,17 @@ const Inventory = () => {
     <section>
       <Container maxWidth="lg" sx={{ padding: "4rem 0" }}>
         <Typography text="secondary" variant="h2" pb={4} textAlign="center">
-          All Cars
+          All Cars |{" "}
+          <Button
+            variant="outlined"
+            size="large"
+            color="success"
+            startIcon={<Add />}
+          >
+            Add One
+          </Button>
         </Typography>
+
         <Grid container spacing={4}>
           {data.map((car) => (
             <InventoryItem car={car} key={car._id} />
