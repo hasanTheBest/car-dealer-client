@@ -23,7 +23,7 @@ import auth from "../firebase.init";
 import { signOut } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
 
-const pages = ["Inventory", "Blog", "Login"];
+const pages = ["Inventory", "Blog"];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
