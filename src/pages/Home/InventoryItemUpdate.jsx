@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Grid,
   List,
@@ -18,16 +18,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
-/* const deliveryFetcher = (url, quantity) =>
-  fetch(url, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ quantity: quantity }),
-  }).then((r) => r.json());
- */
-
 export default function InventoryItemUpdate() {
-  const [delivery, setDelivery] = useState(0);
   const { id } = useParams();
 
   // get the specific item
@@ -36,19 +27,23 @@ export default function InventoryItemUpdate() {
     fetcher
   );
 
-  if (error)
+  // error while fetching item
+  if (error) {
     return (
       <Typography textAlign="center" p={4} variant="h4" color="secondary">
         Error while fetching data, {error.message}
       </Typography>
     );
+  }
 
-  if (!data)
+  // loading, fetching...
+  if (!data) {
     return (
       <Typography textAlign="center" variant="h3" color="primary" p={2}>
         Loading ......
       </Typography>
     );
+  }
 
   // handle click delivery button
   const handleDeliveryItem = (quantity) => {
@@ -57,10 +52,28 @@ export default function InventoryItemUpdate() {
     }
     const newQuantity = parseInt(quantity) - 1;
 
-    /* const { deliveryItem, deliveryError } = useSWR(
-      { url: `https://car-dealer-assignment.herokuapp.com/inventory/${id}`, quantity: newQuantity },
-      deliveryFetcher
-    ); */
+    // update stock/decrease stock item by 1
+    fetch(`https://car-dealer-assignment.herokuapp.com/inventory/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity: newQuantity }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.modifiedCount) {
+          toast.success("Quantity is updated by decreasing one item");
+        } else {
+          toast.error("No data modified. try after reloading the page");
+        }
+      })
+      .catch((err) => toast.error(err.message));
+  };
+
+  // handle add item to stock
+  const handleAddItem = (e, quantity) => {
+    e.preventDefault();
+
+    const newQuantity = parseInt(e.target.quantity.value) + parseInt(quantity);
 
     fetch(`https://car-dealer-assignment.herokuapp.com/inventory/${id}`, {
       method: "PUT",
@@ -70,26 +83,12 @@ export default function InventoryItemUpdate() {
       .then((r) => r.json())
       .then((data) => {
         if (data?.modifiedCount) {
-          setDelivery(data.modifiedCount);
-          toast.success("Stock decrease by : " + data.modifiedCount);
+          toast.success("Stock is updated by adding items");
+        } else {
+          toast.error("No data modified. try after reloading the page");
         }
-      });
-  };
-
-  // handle add item to stock
-  const handleAddItem = (e, quantity) => {
-    e.preventDefault();
-
-    // console.log(e.target.quantity.value);
-    const newQuantity = parseInt(e.target.quantity.value) + parseInt(quantity);
-
-    fetch(`https://car-dealer-assignment.herokuapp.com/inventory/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ quantity: newQuantity }),
-    })
-      .then((r) => r.json())
-      .then((data) => console.log(data));
+      })
+      .catch((err) => toast.error(err.message));
   };
 
   return (
@@ -105,7 +104,7 @@ export default function InventoryItemUpdate() {
           </Box>
           <List sx={{ maxWidth: "750px", margin: "0 auto" }}>
             {Object.entries(data).map(([key, value]) => {
-              if (key === "image") return;
+              if (key === "image") return null;
 
               return (
                 <ListItem key={key}>
