@@ -58,6 +58,7 @@ const Header = () => {
   };
 
   const handleNavigateToLoginPage = () => navigate("/login");
+  const handleClickSiteLogo = () => navigate("/");
 
   return (
     <>
@@ -70,6 +71,7 @@ const Header = () => {
                 noWrap
                 component="div"
                 sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+                onClick={handleClickSiteLogo}
               >
                 CarDealer
               </Typography>
@@ -115,6 +117,7 @@ const Header = () => {
                 noWrap
                 component="div"
                 sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+                onClick={handleClickSiteLogo}
               >
                 CarDealer
               </Typography>
