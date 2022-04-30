@@ -162,7 +162,7 @@ export default function InventoryItemUpdate() {
           </Box>
         </Grid>
       </Grid>
-      <Toaster />
+      <Toaster position="bottom-center" />
     </>
   );
 }
