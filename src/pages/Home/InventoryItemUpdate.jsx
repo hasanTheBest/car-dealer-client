@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   List,
@@ -14,9 +14,20 @@ import { useParams, Link as RouterLink } from "react-router-dom";
 import useSWR from "swr";
 import { Box } from "@mui/system";
 
+import toast, { Toaster } from "react-hot-toast";
+
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
+/* const deliveryFetcher = (url, quantity) =>
+  fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ quantity: quantity }),
+  }).then((r) => r.json());
+ */
+
 export default function InventoryItemUpdate() {
+  const [delivery, setDelivery] = useState(0);
   const { id } = useParams();
 
   // get the specific item
@@ -45,7 +56,11 @@ export default function InventoryItemUpdate() {
       return;
     }
     const newQuantity = parseInt(quantity) - 1;
-    console.log(quantity, newQuantity);
+
+    /* const { deliveryItem, deliveryError } = useSWR(
+      { url: `https://car-dealer-assignment.herokuapp.com/inventory/${id}`, quantity: newQuantity },
+      deliveryFetcher
+    ); */
 
     fetch(`https://car-dealer-assignment.herokuapp.com/inventory/${id}`, {
       method: "PUT",
@@ -53,7 +68,12 @@ export default function InventoryItemUpdate() {
       body: JSON.stringify({ quantity: newQuantity }),
     })
       .then((r) => r.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data?.modifiedCount) {
+          setDelivery(data.modifiedCount);
+          toast.success("Stock decrease by : " + data.modifiedCount);
+        }
+      });
   };
 
   // handle add item to stock
@@ -73,74 +93,77 @@ export default function InventoryItemUpdate() {
   };
 
   return (
-    <Grid container flexDirection="column" spacing={3}>
-      <Grid item>
-        <Box>
-          <img
-            src={data.image}
-            alt={data.name}
-            style={{ maxWidth: "100%", height: "auto" }}
-          />
-        </Box>
-        <List sx={{ maxWidth: "750px", margin: "0 auto" }}>
-          {Object.entries(data).map(([key, value]) => {
-            if (key === "image") return;
-
-            return (
-              <ListItem key={key}>
-                <ListItemAvatar sx={{ width: "25%" }}>
-                  <Typography variant="body1">
-                    {key === "_id" ? "ID" : key.toUpperCase()}
-                  </Typography>
-                </ListItemAvatar>
-                <ListItemText primary={value} />
-              </ListItem>
-            );
-          })}
-        </List>
-      </Grid>
-      <Grid item>
-        <Box
-          sx={{
-            maxWidth: "750px",
-            margin: "0 auto",
-            display: "flex",
-            gap: "1rem",
-            flexWrap: "wrap",
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={() => handleDeliveryItem(data.quantity)}
-          >
-            Delivery
-          </Button>
-          <Button variant="outlined" component={RouterLink} to="/inventory">
-            Manage stock
-          </Button>
-          <FormControl
-            sx={{
-              flexDirection: "row",
-              gap: ".5rem",
-              flexGrow: 1,
-              justifyContent: "flex-end",
-            }}
-            component="form"
-            onSubmit={(e) => handleAddItem(e, data.quantity)}
-          >
-            <Input
-              id="increaseStock"
-              type="number"
-              placeholder="Increase stock"
-              name="quantity"
-              required
+    <>
+      <Grid container flexDirection="column" spacing={3}>
+        <Grid item>
+          <Box>
+            <img
+              src={data.image}
+              alt={data.name}
+              style={{ maxWidth: "100%", height: "auto" }}
             />
-            <Button type="submit" variant="contained">
-              Add
+          </Box>
+          <List sx={{ maxWidth: "750px", margin: "0 auto" }}>
+            {Object.entries(data).map(([key, value]) => {
+              if (key === "image") return;
+
+              return (
+                <ListItem key={key}>
+                  <ListItemAvatar sx={{ width: "25%" }}>
+                    <Typography variant="body1">
+                      {key === "_id" ? "ID" : key.toUpperCase()}
+                    </Typography>
+                  </ListItemAvatar>
+                  <ListItemText primary={value} />
+                </ListItem>
+              );
+            })}
+          </List>
+        </Grid>
+        <Grid item>
+          <Box
+            sx={{
+              maxWidth: "750px",
+              margin: "0 auto",
+              display: "flex",
+              gap: "1rem",
+              flexWrap: "wrap",
+            }}
+          >
+            <Button
+              variant="contained"
+              onClick={() => handleDeliveryItem(data.quantity)}
+            >
+              Delivery
             </Button>
-          </FormControl>
-        </Box>
+            <Button variant="outlined" component={RouterLink} to="/inventory">
+              Manage stock
+            </Button>
+            <FormControl
+              sx={{
+                flexDirection: "row",
+                gap: ".5rem",
+                flexGrow: 1,
+                justifyContent: "flex-end",
+              }}
+              component="form"
+              onSubmit={(e) => handleAddItem(e, data.quantity)}
+            >
+              <Input
+                id="increaseStock"
+                type="number"
+                placeholder="Increase stock"
+                name="quantity"
+                required
+              />
+              <Button type="submit" variant="contained">
+                Add
+              </Button>
+            </FormControl>
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+      <Toaster />
+    </>
   );
 }
