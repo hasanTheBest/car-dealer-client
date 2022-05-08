@@ -13,7 +13,7 @@ export default function LatestNewsCard({
   tag,
 }) {
   return (
-    <Grid item xs sm={2} md={3} lg={4}>
+    <Grid item xs sm={6} md={4} lg={3}>
       <Card>
         <CardActionArea>
           <CardMedia component="img" height="140" image={image} alt={title} />
