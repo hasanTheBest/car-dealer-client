@@ -47,7 +47,7 @@ const FeaturedCollection = () => {
               size="large"
               to="/inventory"
             >
-              Explore All
+              Manage Inventory
             </Button>
           </Grid>
         </Grid>

@@ -23,7 +23,7 @@ import auth from "../firebase.init";
 import { signOut } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
 
-const pages = ["Inventory", "Blog"];
+// const pages = ["Manage Inventory", "Blog"];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -40,8 +40,9 @@ const Header = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (destination) => {
     setAnchorElNav(null);
+    navigate(destination);
   };
 
   const handleCloseUserMenu = () => {};
@@ -109,11 +110,14 @@ const Header = () => {
                     display: { xs: "block", md: "none" },
                   }}
                 >
-                  {pages.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page}</Typography>
-                    </MenuItem>
-                  ))}
+                  {/* {pages.map((page) => ( */}
+                  <MenuItem onClick={() => handleCloseNavMenu("blog")}>
+                    <Typography textAlign="center">Blog</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleCloseNavMenu("inventory")}>
+                    <Typography textAlign="center">Manage Inventory</Typography>
+                  </MenuItem>
+                  {/* ))} */}
                 </Menu>
               </Box>
               <Typography
@@ -130,17 +134,22 @@ const Header = () => {
                 CarDealer
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {pages.map((page) => (
-                  <Button
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                    component={RouterLink}
-                    to={`/${page.toLowerCase()}`}
-                  >
-                    {page}
-                  </Button>
-                ))}
+                <Button
+                  // onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  component={RouterLink}
+                  to="/blog"
+                >
+                  Blog
+                </Button>
+                <Button
+                  // onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  component={RouterLink}
+                  to="/inventory"
+                >
+                  Manage Inventory
+                </Button>
               </Box>
 
               <Box sx={{ flexGrow: 0 }}>
