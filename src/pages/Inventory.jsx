@@ -3,11 +3,15 @@ import { Button, Container, Grid, Typography } from "@mui/material";
 import useSWR from "swr";
 import InventoryItem from "../components/InventoryItem";
 import { Add } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 // helper
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const Inventory = () => {
+  // Router
+  const navigate = useNavigate();
+
   const { data, error } = useSWR(
     "https://car-dealer-assignment.herokuapp.com/inventory",
     fetcher
@@ -26,6 +30,10 @@ const Inventory = () => {
         Loading ......
       </Typography>
     );
+
+  // handle click add one button
+  const handleAddOneClick = () => navigate("/addItem");
+
   return (
     <section>
       <Container maxWidth="lg" sx={{ padding: "4rem 0" }}>
@@ -36,6 +44,7 @@ const Inventory = () => {
             size="large"
             color="success"
             startIcon={<Add />}
+            onClick={handleAddOneClick}
           >
             Add One
           </Button>

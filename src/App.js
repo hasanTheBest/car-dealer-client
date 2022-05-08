@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import InventoryItemUpdate from "./pages/Home/InventoryItemUpdate";
 import NotFound from "./pages/NotFound";
+import AddItem from "./pages/AddItem";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -25,6 +27,14 @@ function App() {
           }
         />
         <Route
+          path="/addItem"
+          element={
+            <RequireAuth>
+              <AddItem />
+            </RequireAuth>
+          }
+        />
+        <Route
           path="/inventory/:id"
           element={
             <RequireAuth>
@@ -37,6 +47,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Toaster />
       <Footer />
     </>
   );

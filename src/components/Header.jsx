@@ -45,7 +45,10 @@ const Header = () => {
     navigate(destination);
   };
 
-  const handleCloseUserMenu = () => {};
+  const handleCloseUserMenu = (route) => {
+    setAnchorElUser(null);
+    navigate(route);
+  };
 
   const handleUserLogout = () => {
     signOut(auth)
@@ -110,14 +113,12 @@ const Header = () => {
                     display: { xs: "block", md: "none" },
                   }}
                 >
-                  {/* {pages.map((page) => ( */}
                   <MenuItem onClick={() => handleCloseNavMenu("blog")}>
                     <Typography textAlign="center">Blog</Typography>
                   </MenuItem>
                   <MenuItem onClick={() => handleCloseNavMenu("inventory")}>
                     <Typography textAlign="center">Manage Inventory</Typography>
                   </MenuItem>
-                  {/* ))} */}
                 </Menu>
               </Box>
               <Typography
@@ -135,7 +136,6 @@ const Header = () => {
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 <Button
-                  // onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
                   component={RouterLink}
                   to="/blog"
@@ -193,13 +193,13 @@ const Header = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={() => handleCloseUserMenu("manageItems")}>
                     <Typography textAlign="center">Manage Item</Typography>
                   </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={() => handleCloseUserMenu("myItems")}>
                     <Typography textAlign="center">My Item</Typography>
                   </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={() => handleCloseUserMenu("addItem")}>
                     <Typography textAlign="center">Add Item</Typography>
                   </MenuItem>
                   <MenuItem onClick={handleUserLogout}>

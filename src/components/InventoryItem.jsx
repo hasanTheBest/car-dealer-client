@@ -17,7 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/system";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const Subheader = ({ price, supplier, quantity }) => {
   return (
@@ -108,7 +108,6 @@ const InventoryItem = ({ car }) => {
           </Box>
         </Card>
       </Grid>
-      <Toaster />
     </>
   );
 };

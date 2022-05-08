@@ -9,7 +9,7 @@ import {
 import React, { useRef } from "react";
 import { useLocation, useNavigate, Link as RouterLink } from "react-router-dom";
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import {
   useCreateUserWithEmailAndPassword,
@@ -68,7 +68,6 @@ const Register = () => {
 
   return (
     <section>
-      <Toaster />
       <Typography variant="h3" textAlign="center" mt={3}>
         Login
       </Typography>
