@@ -38,11 +38,17 @@ const InventoryItem = ({ car }) => {
   const { pathname } = useLocation();
 
   // retrieve an inventory item
-  const handleClickExploreButton = (id) => navigate("/inventory/" + id);
+  const handleClickUpdateStock = (id) => navigate("/inventory/" + id);
 
   // dele an item
   const handleClickDeleteItem = (id) => {
     setLoadingDelete(true);
+
+    // const willDelete = window.confirm(
+    //   "Are you sure? You want to delete the item."
+    // );
+
+    // if (!willDelete) return;
 
     fetch(`https://car-dealer-assignment.herokuapp.com/inventory/${id}`, {
       method: "DELETE",
@@ -62,6 +68,9 @@ const InventoryItem = ({ car }) => {
         setLoadingDelete(false);
       });
   };
+
+  // handle click manage item
+  const handleClickManage = (id) => navigate(`/manageItem/${id}`);
 
   return (
     <>
@@ -91,9 +100,9 @@ const InventoryItem = ({ car }) => {
             >
               <Button
                 variant="outlined"
-                onClick={() => handleClickExploreButton(car._id)}
+                onClick={() => handleClickManage(car._id)}
               >
-                Update
+                Manage
               </Button>
               <LoadingButton
                 color="error"
@@ -127,9 +136,9 @@ const InventoryItem = ({ car }) => {
             <Box p={2} sx={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="outlined"
-                onClick={() => handleClickExploreButton(car._id)}
+                onClick={() => handleClickUpdateStock(car._id)}
               >
-                Update
+                Update Stock
               </Button>
             </Box>
           )}

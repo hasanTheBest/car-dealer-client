@@ -193,7 +193,7 @@ const Header = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={() => handleCloseUserMenu("manageItems")}>
+                  <MenuItem onClick={() => handleCloseUserMenu("inventory")}>
                     <Typography textAlign="center">Manage Item</Typography>
                   </MenuItem>
                   <MenuItem onClick={() => handleCloseUserMenu("myItems")}>

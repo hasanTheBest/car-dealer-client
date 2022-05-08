@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import AddItem from "./pages/AddItem";
 import { Toaster } from "react-hot-toast";
 import MyItems from "./pages/MyItems";
+import ManageItem from "./pages/ManageItem";
 
 function App() {
   return (
@@ -32,6 +33,14 @@ function App() {
           element={
             <RequireAuth>
               <AddItem />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/manageItem/:id"
+          element={
+            <RequireAuth>
+              <ManageItem />
             </RequireAuth>
           }
         />
