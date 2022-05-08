@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import NotFound from "./components/NotFound";
 import Inventory from "./pages/Inventory";
 import Blog from "./pages/Blog";
 import Home from "./pages/Home";
@@ -9,6 +8,7 @@ import RequireAuth from "./components/RequireAuth";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import InventoryItemUpdate from "./pages/Home/InventoryItemUpdate";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (

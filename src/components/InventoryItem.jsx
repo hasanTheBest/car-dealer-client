@@ -13,7 +13,6 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import SendIcon from "@mui/icons-material/Send";
 
 import { Box } from "@mui/system";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -67,7 +66,7 @@ const InventoryItem = ({ car }) => {
 
   return (
     <>
-      <Grid item sm={6} md={4} lg={3}>
+      <Grid item md={6} lg={4}>
         <Card>
           <CardHeader
             title={name}

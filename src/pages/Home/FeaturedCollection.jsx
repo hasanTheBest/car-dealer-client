@@ -29,6 +29,10 @@ const FeaturedCollection = () => {
   return (
     <section>
       <Container maxWidth="lg" sx={{ padding: "4rem 0" }}>
+        <Typography variant="h3" mb={6} align="center">
+          Featured Collection
+        </Typography>
+
         <Grid container spacing={4}>
           {data.map((car) => (
             <InventoryItem car={car} key={car._id} />
