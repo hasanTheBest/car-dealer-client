@@ -50,7 +50,6 @@ const InventoryItem = ({ car }) => {
     })
       .then((r) => r.json())
       .then((data) => {
-        console.log(data);
         setLoadingDelete(false);
         if (data.deletedCount === 1) {
           toast.success("Successfully deleted one document.");
@@ -85,8 +84,17 @@ const InventoryItem = ({ car }) => {
             </Typography>
           </CardContent>
 
-          <Box p={2}>
-            {pathname === "/inventory" ? (
+          {pathname === "/myItems" && (
+            <Box
+              p={2}
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <Button
+                variant="outlined"
+                onClick={() => handleClickExploreButton(car._id)}
+              >
+                Update
+              </Button>
               <LoadingButton
                 color="error"
                 onClick={() => handleClickDeleteItem(car._id)}
@@ -97,15 +105,34 @@ const InventoryItem = ({ car }) => {
               >
                 Delete
               </LoadingButton>
-            ) : (
+            </Box>
+          )}
+
+          {pathname === "/inventory" && (
+            <Box p={2} sx={{ display: "flex", justifyContent: "center" }}>
+              <LoadingButton
+                color="error"
+                onClick={() => handleClickDeleteItem(car._id)}
+                loading={loadingDelete}
+                loadingPosition="start"
+                startIcon={<DeleteIcon />}
+                variant="outlined"
+              >
+                Delete
+              </LoadingButton>
+            </Box>
+          )}
+
+          {pathname === "/" && (
+            <Box p={2} sx={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="outlined"
                 onClick={() => handleClickExploreButton(car._id)}
               >
                 Update
               </Button>
-            )}
-          </Box>
+            </Box>
+          )}
         </Card>
       </Grid>
     </>

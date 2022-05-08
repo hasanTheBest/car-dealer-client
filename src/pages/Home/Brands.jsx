@@ -71,7 +71,7 @@ const Brands = () => {
       </Typography>
       <Grid container spacing={3}>
         {brands.map(({ name, image, items }, i) => (
-          <Grid item sm={6} md={4} lg={3} xl={2}>
+          <Grid item sm={6} md={4} lg={3} xl={2} key={name + i}>
             <Card>
               <CardActionArea>
                 <CardMedia

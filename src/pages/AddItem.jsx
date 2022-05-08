@@ -64,8 +64,9 @@ const AddItem = () => {
     ];
 
     // send data to server
+    // fetch("http://localhost:5000/addItem", {
     fetch("https://car-dealer-assignment.herokuapp.com/addItem", {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -80,7 +81,11 @@ const AddItem = () => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        if (data?.insertedId) {
+          toast.success("Item Successfully Added");
+        }
+      })
       .catch((err) => toast.error(err.message));
 
     // Reset Input Field
