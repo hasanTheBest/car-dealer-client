@@ -37,7 +37,7 @@ const rows = [
 
 const JSvsNode = () => {
   return (
-    <Box p={2}>
+    <Box p={2} mb={4}>
       <Typography variant="h6" mb={3}>
         1. Difference Between JS and Node
       </Typography>
